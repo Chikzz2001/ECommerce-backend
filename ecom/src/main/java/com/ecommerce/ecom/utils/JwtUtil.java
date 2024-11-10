@@ -19,7 +19,7 @@ public class JwtUtil {
         return Base64.getEncoder().encodeToString(uuid.getBytes());
     }
 
-    public static final String SECRET = generateRandomBase64String();
+    public static final String SECRET = "413F4428472B4B6250655368566D5970337336763979244226452948404D6351";
 
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
