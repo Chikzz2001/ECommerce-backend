@@ -11,6 +11,7 @@ import java.util.UUID;
 public class OrderDto {
     private Long id;
     private String orderDescription;
+    private String address;
     private Date date;
     private Long amount;
     private String payment;
@@ -20,4 +21,5 @@ public class OrderDto {
     private UUID trackingId;
     private String userName;
     private List<CartItemsDto> cartItems;
+    private String couponName;
 }
