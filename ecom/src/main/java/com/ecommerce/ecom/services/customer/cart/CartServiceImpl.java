@@ -38,10 +38,12 @@ public class CartServiceImpl implements CartService {
                 OrderStatus.Pending);
         Optional<User> user = userRepository.findById(addProductInCartDto.getUserId());
 
-        if (activeOrder == null) {
+        if (user.isPresent() && activeOrder == null) {
             activeOrder = new Order();
-            activeOrder.setUser(user.get()); // Assuming user is retrieved already
+            activeOrder.setUser(user.get());
             activeOrder.setOrderStatus(OrderStatus.Pending);
+            activeOrder.setAmount(0L);
+            activeOrder.setTotalAmount(0L);
             activeOrder = orderRepository.save(activeOrder);
         }
 
@@ -194,7 +196,7 @@ public class CartServiceImpl implements CartService {
         Order activeOrder = orderRepository.findByUserIdAndOrderStatus(placeOrderDto.getUserId(), OrderStatus.Pending);
         Optional<User> optionalUser = userRepository.findById(placeOrderDto.getUserId());
 
-        if(optionalUser.isPresent()) {
+        if (optionalUser.isPresent()) {
             activeOrder.setOrderDescription(placeOrderDto.getOrderDescription());
             activeOrder.setAddress(placeOrderDto.getAddress());
             activeOrder.setDate(new Date());
@@ -203,7 +205,7 @@ public class CartServiceImpl implements CartService {
 
             orderRepository.save(activeOrder);
 
-            Order order=new Order();
+            Order order = new Order();
             order.setAmount(0L);
             order.setTotalAmount(0L);
             order.setDiscount(0L);
@@ -214,5 +216,10 @@ public class CartServiceImpl implements CartService {
             return activeOrder.getOrderDto();
         }
         return null;
+    }
+
+    public List<OrderDto> getMyPlacedOrders(Long userId) {
+        return orderRepository.findByUserIdAndOrderStatusIn(userId, List.of(OrderStatus.Placed, OrderStatus.Shipped, OrderStatus.Delivered)).stream().map(Order::getOrderDto).collect(Collectors.toList());
+
     }
 }
