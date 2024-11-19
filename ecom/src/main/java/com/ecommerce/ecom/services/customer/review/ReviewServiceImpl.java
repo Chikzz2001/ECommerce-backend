@@ -2,12 +2,16 @@ package com.ecommerce.ecom.services.customer.review;
 
 import com.ecommerce.ecom.dto.OrderedProductsResponseDto;
 import com.ecommerce.ecom.dto.ProductDto;
-import com.ecommerce.ecom.entity.CartItems;
-import com.ecommerce.ecom.entity.Order;
+import com.ecommerce.ecom.dto.ReviewDto;
+import com.ecommerce.ecom.entity.*;
 import com.ecommerce.ecom.repository.OrderRepository;
+import com.ecommerce.ecom.repository.ProductRepository;
+import com.ecommerce.ecom.repository.ReviewRepository;
+import com.ecommerce.ecom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,16 +22,22 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final OrderRepository orderRepository;
 
-    public OrderedProductsResponseDto getOrderedProductsDetailsByOrderId(Long orderId) {
-        Optional<Order> optionalOrder=orderRepository.findById(orderId);
-        OrderedProductsResponseDto orderedProductsResponseDto=new OrderedProductsResponseDto();
+    private final ProductRepository productRepository;
 
-        if(optionalOrder.isPresent()) {
+    private final UserRepository userRepository;
+
+    private final ReviewRepository reviewRepository;
+
+    public OrderedProductsResponseDto getOrderedProductsDetailsByOrderId(Long orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        OrderedProductsResponseDto orderedProductsResponseDto = new OrderedProductsResponseDto();
+
+        if (optionalOrder.isPresent()) {
             orderedProductsResponseDto.setOrderAmount(optionalOrder.get().getAmount());
 
             List<ProductDto> productDtoList = new ArrayList<>();
-            for(CartItems cartItems:optionalOrder.get().getCartItems()) {
-                ProductDto productDto=new ProductDto();
+            for (CartItems cartItems : optionalOrder.get().getCartItems()) {
+                ProductDto productDto = new ProductDto();
 
                 productDto.setId(cartItems.getProduct().getId());
                 productDto.setName(cartItems.getProduct().getName());
@@ -40,5 +50,24 @@ public class ReviewServiceImpl implements ReviewService {
             orderedProductsResponseDto.setProductDtoList(productDtoList);
         }
         return orderedProductsResponseDto;
+    }
+
+    public ReviewDto giveReview(ReviewDto reviewDto) throws IOException {
+        Optional<Product> optionalProduct = productRepository.findById(reviewDto.getProductId());
+        Optional<User> optionalUser = userRepository.findById(reviewDto.getUserId());
+
+        if (optionalProduct.isPresent() && optionalUser.isPresent()) {
+            Review review = new Review();
+
+            review.setRating(reviewDto.getRating());
+            review.setDescription(reviewDto.getDescription());
+            review.setUser(optionalUser.get());
+            review.setProduct(optionalProduct.get());
+            review.setImg(reviewDto.getImg().getBytes());
+
+            return reviewRepository.save(review).getDto();
+        }
+
+        return null;
     }
 }
