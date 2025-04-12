@@ -1,0 +1,890 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Wishlist
+    description: API for managing wishlist
+  - name: Customer Product
+    description: API for managing product for customers
+  - name: Review
+    description: API for getting reviews for products
+  - name: Auth
+    description: API for authentication
+  - name: Cart
+    description: API for managing cart
+  - name: Admin Product
+    description: API for managing product for admins
+  - name: Order
+    description: API for managing orders for admins
+  - name: Coupon
+    description: API for managing coupons for admins
+  - name: Category
+    description: API for managing product categories for admin
+  - name: Get All Coupons
+    description: API for getting all coupons
+  - name: Track Order
+    description: API for tracking orders
+paths:
+  /api/admin/product/{productId}:
+    get:
+      tags:
+        - Admin Product
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+    put:
+      tags:
+        - Admin Product
+      operationId: updateProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: productDto
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/ProductDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+    delete:
+      tags:
+        - Admin Product
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /sign-up:
+    post:
+      tags:
+        - Auth
+      operationId: signupUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /authenticate:
+    post:
+      tags:
+        - Auth
+      operationId: createAuthenticationToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+  /api/customer/wishlist:
+    post:
+      tags:
+        - Wishlist
+      operationId: addProductToWishList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WishlistDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/customer/review:
+    post:
+      tags:
+        - Review
+      operationId: giveReview
+      parameters:
+        - name: reviewDto
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/ReviewDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/customer/placeOrder:
+    post:
+      tags:
+        - Cart
+      operationId: placeOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaceOrderDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+  /api/customer/deduction:
+    post:
+      tags:
+        - Cart
+      operationId: decreaseProductQuantity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProductInCartDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+  /api/customer/cart:
+    post:
+      tags:
+        - Cart
+      operationId: addProductToCart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProductInCartDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/customer/addition:
+    post:
+      tags:
+        - Cart
+      operationId: increaseProductQuantity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProductInCartDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+  /api/admin/product:
+    post:
+      tags:
+        - Admin Product
+      operationId: addProduct
+      parameters:
+        - name: productDto
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/ProductDto'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDto'
+  /api/admin/faq/{productId}:
+    post:
+      tags:
+        - Admin Product
+      operationId: postFAQ
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FAQDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FAQDto'
+  /api/admin/coupons:
+    get:
+      tags:
+        - Coupon
+      operationId: getAllCoupons_1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Coupon'
+    post:
+      tags:
+        - Coupon
+      operationId: createCoupon
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Coupon'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/admin/category:
+    post:
+      tags:
+        - Category
+      operationId: categoryCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Category'
+  /order/{trackingId}:
+    get:
+      tags:
+        - Track Order
+      operationId: searchOrderByTrackingId
+      parameters:
+        - name: trackingId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderDto'
+  /api/customer/wishlist/{userId}:
+    get:
+      tags:
+        - Wishlist
+      operationId: getWishListByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WishlistDto'
+  /api/customer/search/{name}:
+    get:
+      tags:
+        - Customer Product
+      operationId: getAllProductsByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  /api/customer/products:
+    get:
+      tags:
+        - Customer Product
+      operationId: getAllProducts
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  /api/customer/product/{productId}:
+    get:
+      tags:
+        - Customer Product
+      operationId: getProductDetailById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductDetailDto'
+  /api/customer/ordered-products/{orderId}:
+    get:
+      tags:
+        - Review
+      operationId: getOrderedProductsDetailsByOrderId
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderedProductsResponseDto'
+  /api/customer/myOrders/{userId}:
+    get:
+      tags:
+        - Cart
+      operationId: getMyPlacedOrders
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+  /api/customer/coupons:
+    get:
+      tags:
+        - Get All Coupons
+      operationId: getAllCoupons
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Coupon'
+  /api/customer/coupon/{userId}/{code}:
+    get:
+      tags:
+        - Cart
+      operationId: applyCoupon
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/customer/cart/{userId}:
+    get:
+      tags:
+        - Cart
+      operationId: getCartByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/admin:
+    get:
+      tags:
+        - Category
+      operationId: getAllCategories
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  /api/admin/search/{name}:
+    get:
+      tags:
+        - Admin Product
+      operationId: getAllProductsByName_1
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  /api/admin/products:
+    get:
+      tags:
+        - Admin Product
+      operationId: getAllProducts_1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDto'
+  /api/admin/placedOrders:
+    get:
+      tags:
+        - Order
+      operationId: getAllPlacedOrders
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderDto'
+  /api/admin/placedOrders/{orderId}/{status}:
+    get:
+      tags:
+        - Order
+      operationId: changeOrderStatus
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/admin/order/analytics:
+    get:
+      tags:
+        - Order
+      operationId: getAnalytics
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AnalyticsResponse'
+components:
+  schemas:
+    ProductDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: integer
+          format: int64
+        description:
+          type: string
+        byteImg:
+          type: array
+          items:
+            type: string
+            format: byte
+        categoryId:
+          type: integer
+          format: int64
+        categoryName:
+          type: string
+        img:
+          type: string
+          format: binary
+        quantity:
+          type: integer
+          format: int64
+    SignupRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        name:
+          type: string
+    AuthenticationRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    WishlistDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        productDescription:
+          type: string
+        returnedImg:
+          type: array
+          items:
+            type: string
+            format: byte
+        price:
+          type: integer
+          format: int64
+    ReviewDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rating:
+          type: integer
+          format: int64
+        description:
+          type: string
+        img:
+          type: string
+          format: binary
+        returnedImg:
+          type: array
+          items:
+            type: string
+            format: byte
+        userId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        username:
+          type: string
+    PlaceOrderDto:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        address:
+          type: string
+        orderDescription:
+          type: string
+    CartItemsDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        price:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        orderId:
+          type: integer
+          format: int64
+        productName:
+          type: string
+        returnedImg:
+          type: array
+          items:
+            type: string
+            format: byte
+        userId:
+          type: integer
+          format: int64
+    OrderDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        orderDescription:
+          type: string
+        address:
+          type: string
+        date:
+          type: string
+          format: date-time
+        amount:
+          type: integer
+          format: int64
+        payment:
+          type: string
+        orderStatus:
+          type: string
+          enum:
+            - Pending
+            - Placed
+            - Shipped
+            - Delivered
+        totalAmount:
+          type: integer
+          format: int64
+        discount:
+          type: integer
+          format: int64
+        trackingId:
+          type: string
+          format: uuid
+        userName:
+          type: string
+        cartItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItemsDto'
+        couponName:
+          type: string
+    AddProductInCartDto:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+    FAQDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        question:
+          type: string
+        answer:
+          type: string
+        productId:
+          type: integer
+          format: int64
+    Coupon:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        code:
+          type: string
+        discount:
+          type: integer
+          format: int64
+        expirationDate:
+          type: string
+          format: date-time
+    CategoryDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+    ProductDetailDto:
+      type: object
+      properties:
+        productDto:
+          $ref: '#/components/schemas/ProductDto'
+        reviewDtoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReviewDto'
+        faqDtoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/FAQDto'
+    OrderedProductsResponseDto:
+      type: object
+      properties:
+        productDtoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDto'
+        orderAmount:
+          type: integer
+          format: int64
+    AnalyticsResponse:
+      type: object
+      properties:
+        placed:
+          type: integer
+          format: int64
+        shipped:
+          type: integer
+          format: int64
+        delivered:
+          type: integer
+          format: int64
+        currentMonthOrders:
+          type: integer
+          format: int64
+        previousMonthOrders:
+          type: integer
+          format: int64
+        currentMonthEarnings:
+          type: integer
+          format: int64
+        previousMonthEarnings:
+          type: integer
+          format: int64
