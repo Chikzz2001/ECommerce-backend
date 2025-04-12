@@ -3,6 +3,7 @@ package com.ecommerce.ecom.controller.admin;
 import com.ecommerce.ecom.dto.AnalyticsResponse;
 import com.ecommerce.ecom.dto.OrderDto;
 import com.ecommerce.ecom.services.admin.adminOrder.AdminOrderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
+@Tag(name = "Order", description = "API for managing orders for admins")
 public class AdminOrderController {
 
     private final AdminOrderService adminOrderService;

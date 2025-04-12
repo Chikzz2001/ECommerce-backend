@@ -3,6 +3,7 @@ package com.ecommerce.ecom.controller.customer;
 import com.ecommerce.ecom.dto.ProductDetailDto;
 import com.ecommerce.ecom.dto.ProductDto;
 import com.ecommerce.ecom.services.customer.CustomerProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 @RequiredArgsConstructor
+@Tag(name = "Customer Product", description = "API for managing product for customers")
 public class CustomerProductController {
 
     private final CustomerProductService customerProductService;

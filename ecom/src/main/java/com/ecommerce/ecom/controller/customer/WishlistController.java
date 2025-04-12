@@ -2,6 +2,7 @@ package com.ecommerce.ecom.controller.customer;
 
 import com.ecommerce.ecom.dto.WishlistDto;
 import com.ecommerce.ecom.services.customer.wishlist.WishlistService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/customer")
+@Tag(name = "Wishlist", description = "API for managing wishlist")
 public class WishlistController {
 
     private final WishlistService wishlistService;

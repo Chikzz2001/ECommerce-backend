@@ -7,6 +7,7 @@ import com.ecommerce.ecom.entity.User;
 import com.ecommerce.ecom.repository.UserRepository;
 import com.ecommerce.ecom.services.auth.AuthService;
 import com.ecommerce.ecom.utils.JwtUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
@@ -27,6 +28,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Auth", description = "API for authentication")
 public class AuthController {
     private static final String HEADER_STRING = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";

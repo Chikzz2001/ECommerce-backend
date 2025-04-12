@@ -4,6 +4,7 @@ import com.ecommerce.ecom.dto.FAQDto;
 import com.ecommerce.ecom.dto.ProductDto;
 import com.ecommerce.ecom.services.admin.adminproduct.AdminProductService;
 import com.ecommerce.ecom.services.admin.faq.FAQService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
+@Tag(name = "Admin Product", description = "API for managing product for admins")
 public class AdminProductController {
 
     private final AdminProductService adminProductService;

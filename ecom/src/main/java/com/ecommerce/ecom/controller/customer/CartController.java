@@ -5,6 +5,7 @@ import com.ecommerce.ecom.dto.OrderDto;
 import com.ecommerce.ecom.dto.PlaceOrderDto;
 import com.ecommerce.ecom.exceptions.ValidationException;
 import com.ecommerce.ecom.services.customer.cart.CartService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/customer")
+@Tag(name = "Cart", description = "API for managing cart")
 public class CartController {
 
     private final CartService cartService;

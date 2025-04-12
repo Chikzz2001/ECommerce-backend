@@ -2,6 +2,7 @@ package com.ecommerce.ecom.controller;
 
 import com.ecommerce.ecom.dto.OrderDto;
 import com.ecommerce.ecom.services.customer.cart.CartService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Track Order", description = "API for tracking orders")
 public class TrackingController {
 
     private final CartService cartService;

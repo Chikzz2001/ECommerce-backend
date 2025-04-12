@@ -3,6 +3,7 @@ package com.ecommerce.ecom.controller.customer;
 import com.ecommerce.ecom.dto.OrderedProductsResponseDto;
 import com.ecommerce.ecom.dto.ReviewDto;
 import com.ecommerce.ecom.services.customer.review.ReviewService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/customer")
+@Tag(name = "Review", description = "API for getting reviews for products")
 public class ReviewController {
 
     private final ReviewService reviewService;
